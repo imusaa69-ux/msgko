@@ -20,7 +20,7 @@ const rajdhani = Rajdhani({
   weight: ['400', '500', '600', '700'],
 })
 
-const BASE_URL = 'https://msgknightonline.com'
+const BASE_URL = 'https://msgko.net'
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),

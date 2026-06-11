@@ -54,7 +54,18 @@ export function Footer() {
                 className="h-16 w-auto"
                 style={{ mixBlendMode: 'screen' }}
               />
-              <p className="text-[0.6rem] tracking-[0.18em] uppercase mt-2 text-purple-500/60">Knight Online</p>
+
+              <a
+                href="https://msgko.net"
+                className="inline-flex items-center gap-1.5 mt-1.5 group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="w-1 h-1 rounded-full bg-purple-500/50 group-hover:bg-purple-400/80 transition-colors duration-200" />
+                <span className="text-[0.62rem] tracking-[0.1em] text-white/25 group-hover:text-purple-400/60 transition-colors duration-200">
+                  msgko.net
+                </span>
+              </a>
             </div>
             <p className="text-[0.78rem] leading-[1.8] mb-6 max-w-[220px] text-white/40">
               Knight Online için asas ve okçu karakterlerine özel en kapsamlı eğitim videoları burada.
@@ -141,9 +152,18 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 py-5">
-          <p className="text-[0.68rem] tracking-[0.08em] text-white/[0.18]">
-            © 2024 MSG Knight Online. Tüm hakları saklıdır.
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-[0.68rem] tracking-[0.08em] text-white/[0.18]">
+              © {new Date().getFullYear()} MSG Knight Online
+            </p>
+            <span className="text-white/[0.08]">·</span>
+            <a
+              href="https://msgko.net"
+              className="text-[0.68rem] tracking-[0.06em] text-purple-500/40 hover:text-purple-400/70 transition-colors duration-200"
+            >
+              msgko.net
+            </a>
+          </div>
           <div className="flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-purple-500/70 animate-pulse" style={{ animationDuration: '3s' }} />
             <p className="text-[0.62rem] tracking-[0.1em] uppercase text-purple-500/50">Kiro.dev ile geliştirildi</p>

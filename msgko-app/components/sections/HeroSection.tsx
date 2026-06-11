@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { OkcuModal } from '@/components/ui/OkcuModal'
+import { AsasModal } from '@/components/ui/AsasModal'
 
 // Premium stats
 const STATS = [
@@ -11,15 +12,33 @@ const STATS = [
   { value: '2026', label: 'Meta Güncel', sub: 'aktif sezon' },
 ]
 
-// Premium güncelleme kartı
-const UPDATES = [
-  { icon: '⚔', text: 'Asas Combo Rehberi', badge: 'YENİ' },
-  { icon: '🏹', text: 'Okçu 2026 Meta Build', badge: null },
-  { icon: '🎬', text: 'Yeni Video Eklendi', badge: null },
+// Ticker bant içeriği
+const TICKER_ITEMS = [
+  { icon: null, text: 'Asas Rehberi',  img: '/assassian-icon.png' },
+  { icon: null, text: 'Okçu Rehberi',  img: '/archer-icon.png' },
+  { icon: null, text: 'Priest Rehberi', img: '/dreadshield.png' },
+  { icon: null, text: 'Mage Rehberi',  img: '/staffwoe.png' },
+  { icon: '🛡️', text: 'WS Taktikleri', img: null },
+  { icon: '🎮', text: "Knight Online'a Dair Her Şey", img: null },
+  // Döngü için tekrar
+  { icon: null, text: 'Asas Rehberi',  img: '/assassian-icon.png' },
+  { icon: null, text: 'Okçu Rehberi',  img: '/archer-icon.png' },
+  { icon: null, text: 'Priest Rehberi', img: '/dreadshield.png' },
+  { icon: null, text: 'Mage Rehberi',  img: '/staffwoe.png' },
+  { icon: '🛡️', text: 'WS Taktikleri', img: null },
+  { icon: '🎮', text: "Knight Online'a Dair Her Şey", img: null },
+  // İkinci tekrar — kesintisiz döngü
+  { icon: null, text: 'Asas Rehberi',  img: '/assassian-icon.png' },
+  { icon: null, text: 'Okçu Rehberi',  img: '/archer-icon.png' },
+  { icon: null, text: 'Priest Rehberi', img: '/dreadshield.png' },
+  { icon: null, text: 'Mage Rehberi',  img: '/staffwoe.png' },
+  { icon: '🛡️', text: 'WS Taktikleri', img: null },
+  { icon: '🎮', text: "Knight Online'a Dair Her Şey", img: null },
 ]
 
 export function HeroSection() {
   const [okcuOpen, setOkcuOpen] = useState(false)
+  const [asasOpen, setAsasOpen] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
@@ -65,7 +84,7 @@ export function HeroSection() {
           `
         }} />
 
-        {/* Noise texture overlay — premium depth */}
+        {/* Noise texture overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -76,7 +95,7 @@ export function HeroSection() {
 
         {/* MSG Logo — right side, parallax + mouse */}
         <motion.div
-          className="absolute right-[-4%] md:right-[-2%] top-1/2 w-[55%] md:w-[50%] max-w-[680px] pointer-events-none select-none"
+          className="absolute right-[8%] md:right-[6%] top-1/2 w-[55%] md:w-[48%] max-w-[640px] pointer-events-none select-none"
           style={{
             y: logoY,
             translateY: '-50%',
@@ -84,7 +103,6 @@ export function HeroSection() {
           }}
           aria-hidden="true"
         >
-          {/* Multi-layer glow behind logo */}
           <div className="absolute inset-0 scale-90"
             style={{
               background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(109,40,217,0.22) 0%, rgba(139,92,246,0.12) 35%, transparent 65%)',
@@ -104,7 +122,7 @@ export function HeroSection() {
             style={{
               mixBlendMode: 'screen',
               filter: 'brightness(1.4) contrast(1.08) drop-shadow(0 0 40px rgba(139,92,246,0.5)) drop-shadow(0 0 80px rgba(109,40,217,0.25))',
-              opacity: 0.65,
+              opacity: 0.52,
               x: mousePos.x * -8,
               y: mousePos.y * -8,
             }}
@@ -160,37 +178,90 @@ export function HeroSection() {
             </motion.div>
 
             {/* H1 */}
-            <motion.h1
-              initial={{ opacity: 0, y: 36 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="font-black leading-[0.92] uppercase tracking-[-0.02em] text-white mb-6"
-              style={{
-                fontFamily: 'var(--font-rajdhani), sans-serif',
-                fontSize: 'clamp(2.8rem, 7vw, 6.5rem)',
-              }}
-            >
-              KNIGHT ONLINE
-              <br />
-              <span
-                className="text-transparent bg-clip-text"
-                style={{ backgroundImage: 'linear-gradient(135deg, #c4b5fd 0%, #a78bfa 30%, #ec4899 65%, #f59e0b 100%)' }}
+            <div className="mb-6">
+              {/* Satır 1: KNIGHT ONLINE — yan yana */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-baseline gap-[0.15em] flex-wrap"
               >
-                AKADEMİSİ
-              </span>
-            </motion.h1>
+                <span
+                  className="uppercase leading-[0.9] tracking-[-0.02em] text-white"
+                  style={{
+                    fontFamily: 'var(--font-rajdhani), sans-serif',
+                    fontSize: 'clamp(2.2rem, 5.2vw, 5.2rem)',
+                    fontWeight: 900,
+                  }}
+                >
+                  KNIGHT
+                </span>
+                <span
+                  className="uppercase leading-[0.9] tracking-[-0.02em]"
+                  style={{
+                    fontFamily: 'var(--font-rajdhani), sans-serif',
+                    fontSize: 'clamp(2.2rem, 5.2vw, 5.2rem)',
+                    fontWeight: 900,
+                    color: 'white',
+                  }}
+                >
+                  ONLINE
+                </span>
+              </motion.div>
+
+              {/* Satır 2: GELİŞİM REHBERİ — yan yana, gradient */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.75, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-baseline gap-[0.4em] flex-wrap"
+              >
+                <span
+                  className="uppercase leading-[0.9] tracking-[-0.02em] text-transparent bg-clip-text"
+                  style={{
+                    fontFamily: 'var(--font-rajdhani), sans-serif',
+                    fontSize: 'clamp(2.2rem, 5.2vw, 5.2rem)',
+                    fontWeight: 900,
+                    backgroundImage: 'linear-gradient(125deg, #e0d7ff 0%, #a78bfa 30%, #8b5cf6 50%, #ec4899 75%, #f59e0b 100%)',
+                  }}
+                >
+                  GELİŞİM
+                </span>
+                <span
+                  className="uppercase leading-[0.9] tracking-[-0.02em] text-transparent bg-clip-text"
+                  style={{
+                    fontFamily: 'var(--font-rajdhani), sans-serif',
+                    fontSize: 'clamp(2.2rem, 5.2vw, 5.2rem)',
+                    fontWeight: 900,
+                    backgroundImage: 'linear-gradient(125deg, #a78bfa 0%, #ec4899 55%, #fb923c 100%)',
+                  }}
+                >
+                  REHBERİ
+                </span>
+              </motion.div>
+
+              {/* Accent line */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.65, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-3 h-[2px] origin-left max-w-[360px]"
+                style={{ background: 'linear-gradient(90deg, rgba(139,92,246,0.7), rgba(236,72,153,0.4), transparent)' }}
+              />
+            </div>
 
             {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[1rem] md:text-[1.05rem] leading-[1.8] mb-9 max-w-[460px]"
+              className="text-[1rem] md:text-[1.05rem] leading-[1.8] mb-9 max-w-[480px]"
               style={{ color: 'rgba(200,200,216,0.62)' }}
             >
-              Rakiplerinin önüne geçmek için en güncel{' '}
-              <span className="text-purple-300 font-semibold">Asas ve Okçu</span>{' '}
-              eğitimleri, PvP stratejileri, combo teknikleri ve 2026 meta rehberleri burada.
+              Her savaş yeni bir deneyim, her eğitim daha büyük bir{' '}
+              <span className="text-purple-300 font-semibold">gelişim fırsatıdır.</span>{' '}
+              Ustalığa giden yolda ihtiyacın olan tüm bilgiler, güncel meta analizleri ve
+              profesyonel eğitim içerikleri burada seni bekliyor.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -201,8 +272,8 @@ export function HeroSection() {
               className="flex flex-col sm:flex-row gap-3 mb-14"
             >
               {/* ASAS — primary */}
-              <motion.a
-                href="/kategoriler/asas"
+              <motion.button
+                onClick={() => setAsasOpen(true)}
                 whileHover={{ scale: 1.04, y: -3 }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
@@ -210,7 +281,7 @@ export function HeroSection() {
                 style={{
                   background: 'linear-gradient(135deg, rgba(109,40,217,1) 0%, rgba(124,58,237,0.95) 50%, rgba(139,92,246,0.9) 100%)',
                   border: '1px solid rgba(139,92,246,0.55)',
-                  boxShadow: '0 4px 24px rgba(109,40,217,0.4), 0 0 0 0 rgba(139,92,246,0), inset 0 1px 0 rgba(255,255,255,0.1)',
+                  boxShadow: '0 4px 24px rgba(109,40,217,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
                   transition: 'box-shadow 0.35s ease',
                 }}
                 onMouseEnter={(e) => {
@@ -220,20 +291,18 @@ export function HeroSection() {
                   e.currentTarget.style.boxShadow = '0 4px 24px rgba(109,40,217,0.4), inset 0 1px 0 rgba(255,255,255,0.1)'
                 }}
               >
-                {/* Animated shine */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{ background: 'linear-gradient(108deg, transparent 25%, rgba(255,255,255,0.14) 50%, transparent 75%)' }} />
-                {/* Bottom edge highlight */}
                 <div className="absolute bottom-0 left-4 right-4 h-px opacity-40"
                   style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)' }} />
-                <img src="/shard.png" alt="" className="relative w-7 h-7 object-contain flex-shrink-0"
-                  style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.6))' }} />
+                <img src="/assassian-icon.png" alt="" className="relative w-7 h-7 object-contain flex-shrink-0"
+                  style={{ mixBlendMode: 'screen', filter: 'brightness(1.3) contrast(1.1) drop-shadow(0 2px 8px rgba(0,0,0,0.6))' }} />
                 <span className="relative z-10">Asas Eğitimleri</span>
                 <svg className="relative z-10 w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
-              </motion.a>
+              </motion.button>
 
               {/* OKÇU — secondary */}
               <motion.button
@@ -317,78 +386,6 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Premium update card — right side */}
-          <motion.div
-            initial={{ opacity: 0, x: 28, y: 8 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute right-8 bottom-24 hidden xl:block w-[230px]"
-          >
-            <div
-              className="relative overflow-hidden p-4"
-              style={{
-                background: 'rgba(10,10,18,0.82)',
-                border: '1px solid rgba(139,92,246,0.22)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.55), 0 0 40px rgba(139,92,246,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
-              }}
-            >
-              {/* Top accent line */}
-              <div className="absolute top-0 left-0 right-0 h-px"
-                style={{ background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.7), rgba(139,92,246,0.5), transparent)' }} />
-
-              {/* Header */}
-              <div className="flex items-center gap-2 mb-3.5">
-                <motion.div
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{ background: '#f59e0b', boxShadow: '0 0 6px rgba(245,158,11,0.8)' }}
-                  animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                />
-                <p className="text-[0.61rem] font-bold tracking-[0.18em] uppercase" style={{ color: 'rgba(251,191,36,0.85)' }}>
-                  Son Güncelleme
-                </p>
-              </div>
-
-              {/* Update items */}
-              <div className="flex flex-col">
-                {UPDATES.map((u, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.95 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex items-center gap-2.5 py-2 px-2 group cursor-default transition-colors duration-200 hover:bg-white/[0.035] rounded-sm"
-                    style={{ borderBottom: i < UPDATES.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
-                  >
-                    <span className="text-sm flex-shrink-0 leading-none">{u.icon}</span>
-                    <span className="text-[0.71rem] text-white/65 group-hover:text-white/85 transition-colors leading-snug flex-1">
-                      {u.text}
-                    </span>
-                    {u.badge && (
-                      <span className="text-[0.52rem] font-bold tracking-[0.1em] px-1.5 py-0.5 flex-shrink-0"
-                        style={{
-                          background: 'rgba(139,92,246,0.2)',
-                          border: '1px solid rgba(139,92,246,0.35)',
-                          color: 'rgba(196,181,253,0.9)',
-                        }}>
-                        {u.badge}
-                      </span>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="mt-3 pt-3 flex items-center justify-between" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                <p className="text-[0.59rem] tracking-[0.12em] uppercase" style={{ color: 'rgba(139,92,246,0.5)' }}>
-                  2026 Sezonu Aktif
-                </p>
-                <div className="w-1 h-1 rounded-full" style={{ background: 'rgba(34,197,94,0.7)' }} />
-              </div>
-            </div>
-          </motion.div>
-
           {/* Scroll indicator */}
           <motion.div
             className="absolute bottom-8 left-8 hidden md:flex flex-col items-center gap-2"
@@ -407,7 +404,79 @@ export function HeroSection() {
         </motion.div>
       </section>
 
+      {/* ─── Ticker Bandı ─────────────────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+        className="relative overflow-hidden"
+        style={{
+          background: 'rgba(10,10,18,0.88)',
+          borderTop: '1px solid rgba(139,92,246,0.18)',
+          borderBottom: '1px solid rgba(139,92,246,0.10)',
+          backdropFilter: 'blur(12px)',
+        }}
+        aria-label="İçerik kategorileri"
+      >
+        {/* Sol fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          style={{ background: 'linear-gradient(90deg, rgba(10,10,18,1) 0%, transparent 100%)' }}
+        />
+        {/* Sağ fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          style={{ background: 'linear-gradient(270deg, rgba(10,10,18,1) 0%, transparent 100%)' }}
+        />
+
+        {/* Kayan içerik — kesintisiz sonsuz döngü */}
+        <div className="flex overflow-hidden">
+          <motion.div
+            className="flex items-center shrink-0 gap-0"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{
+              duration: 28,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+            style={{ willChange: 'transform' }}
+          >
+            {TICKER_ITEMS.map((item, i) => (
+              <div key={i} className="flex items-center shrink-0">
+                {/* İtem */}
+                <div className="flex items-center gap-2.5 px-7 py-3.5 group cursor-default">
+                  {item.img ? (
+                    <img
+                      src={item.img}
+                      alt={item.text}
+                      className="w-4 h-4 object-contain shrink-0"
+                      style={{ mixBlendMode: 'screen', filter: 'brightness(1.3) contrast(1.1) drop-shadow(0 0 3px rgba(139,92,246,0.4))' }}
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <span className="text-[0.95rem] leading-none shrink-0" aria-hidden="true">
+                      {item.icon}
+                    </span>
+                  )}
+                  <span
+                    className="text-[0.78rem] font-semibold tracking-[0.07em] uppercase whitespace-nowrap transition-colors duration-200"
+                    style={{ color: 'rgba(200,190,240,0.55)' }}
+                  >
+                    {item.text}
+                  </span>
+                </div>
+                {/* Ayırıcı */}
+                <div className="flex items-center shrink-0 gap-1.5 px-1">
+                  <div className="w-px h-3.5" style={{ background: 'rgba(139,92,246,0.2)' }} />
+                  <div className="w-1 h-1 rotate-45" style={{ background: 'rgba(139,92,246,0.35)' }} aria-hidden="true" />
+                  <div className="w-px h-3.5" style={{ background: 'rgba(139,92,246,0.2)' }} />
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
+
       <OkcuModal isOpen={okcuOpen} onClose={() => setOkcuOpen(false)} />
+      <AsasModal isOpen={asasOpen} onClose={() => setAsasOpen(false)} />
     </>
   )
 }

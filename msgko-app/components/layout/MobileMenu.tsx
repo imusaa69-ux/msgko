@@ -13,6 +13,8 @@ interface MobileMenuProps {
   onYoutubeOpen?: () => void
   onInstagramOpen?: () => void
   onIletisimOpen?: () => void
+  onAsasOpen?: () => void
+  onDuyurularOpen?: () => void
 }
 
 export function MobileMenu({
@@ -21,18 +23,29 @@ export function MobileMenu({
   onYoutubeOpen,
   onInstagramOpen,
   onIletisimOpen,
+  onAsasOpen,
+  onDuyurularOpen,
 }: MobileMenuProps) {
   const pathname = usePathname()
 
+  const handleAsas = () => {
+    onClose()
+    setTimeout(() => onAsasOpen?.(), 150)
+  }
+
   const handleYoutube = () => {
     onClose()
-    // Kısa gecikme — panel kapanırken diğeri açılsın
     setTimeout(() => onYoutubeOpen?.(), 150)
   }
 
   const handleInstagram = () => {
     onClose()
     setTimeout(() => onInstagramOpen?.(), 150)
+  }
+
+  const handleDuyurular = () => {
+    onClose()
+    setTimeout(() => onDuyurularOpen?.(), 150)
   }
 
   const handleIletisim = () => {
@@ -150,22 +163,21 @@ export function MobileMenu({
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <Link
-                    href="/kategoriler/asas"
-                    onClick={onClose}
-                    className="flex items-center justify-between px-3 py-3 mb-1 border-l-2 border-transparent text-white/50 hover:border-purple-500/30 hover:bg-white/[0.03] hover:text-white/85 transition-all duration-200"
+                  <button
+                    type="button"
+                    onClick={handleAsas}
+                    className="w-full flex items-center justify-between px-3 py-3 mb-1 border-l-2 border-transparent text-white/50 hover:border-purple-500/30 hover:bg-white/[0.03] hover:text-white/85 transition-all duration-200"
                   >
                     <span className="flex items-center gap-2.5 text-[0.85rem] font-medium tracking-[0.04em]">
                       <span className="flex items-center justify-center w-5 h-5 rounded-sm"
                         style={{ background: 'rgba(109,40,217,0.2)', border: '1px solid rgba(139,92,246,0.25)' }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                        </svg>
+                        <img src="/assassian-icon.png" alt="" className="w-4 h-4 object-contain"
+                          style={{ mixBlendMode: 'screen', filter: 'brightness(1.3) contrast(1.1) drop-shadow(0 0 4px rgba(139,92,246,0.4))' }} />
                       </span>
                       Asas Eğitimleri
                     </span>
                     <ChevronRight size={13} className="text-white/20" />
-                  </Link>
+                  </button>
                 </motion.div>
 
                 <motion.div
@@ -181,9 +193,8 @@ export function MobileMenu({
                     <span className="flex items-center gap-2.5 text-[0.85rem] font-medium tracking-[0.04em]">
                       <span className="flex items-center justify-center w-5 h-5 rounded-sm"
                         style={{ background: 'rgba(109,40,217,0.2)', border: '1px solid rgba(139,92,246,0.25)' }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
-                        </svg>
+                        <img src="/archer-icon.png" alt="" className="w-4 h-4 object-contain"
+                          style={{ filter: 'brightness(1.2) drop-shadow(0 0 3px rgba(139,92,246,0.4))' }} />
                       </span>
                       Okçu Eğitimleri
                     </span>
@@ -213,8 +224,8 @@ export function MobileMenu({
                     <span className="flex items-center gap-2.5 text-[0.85rem] font-medium tracking-[0.04em]">
                       <span className="flex items-center justify-center w-5 h-5 rounded-full transition-all duration-200 group-hover:scale-110"
                         style={{ background: 'rgba(255,68,68,0.15)', border: '1px solid rgba(255,68,68,0.25)' }}>
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-red-400 translate-x-px">
-                          <path d="M8 5v14l11-7z"/>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="text-red-400">
+                          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                         </svg>
                       </span>
                       <span className="group-hover:text-red-300 transition-colors duration-200">Youtube</span>
@@ -247,6 +258,32 @@ export function MobileMenu({
                       <span className="group-hover:text-pink-300 transition-colors duration-200">Instagram</span>
                     </span>
                     <ExternalLink size={11} className="text-white/15 group-hover:text-pink-400/50 transition-colors" />
+                  </button>
+                </motion.div>
+
+                {/* Duyurular butonu */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <button
+                    type="button"
+                    onClick={handleDuyurular}
+                    className="w-full flex items-center justify-between px-3 py-3 mb-1 border-l-2 border-transparent text-white/50 hover:border-amber-500/40 hover:bg-amber-500/[0.05] hover:text-white/85 transition-all duration-200 group"
+                  >
+                    <span className="flex items-center gap-2.5 text-[0.85rem] font-medium tracking-[0.04em]">
+                      <span className="flex items-center justify-center w-5 h-5 rounded-full transition-all duration-200 group-hover:scale-110"
+                        style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.25)' }}>
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                          className="text-amber-400">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                      </span>
+                      <span className="group-hover:text-amber-300 transition-colors duration-200">Duyurular</span>
+                    </span>
+                    <ExternalLink size={11} className="text-white/15 group-hover:text-amber-400/50 transition-colors" />
                   </button>
                 </motion.div>
               </div>

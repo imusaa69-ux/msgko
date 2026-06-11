@@ -7,10 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { CokYakindaModal } from './CokYakindaModal'
 
 const KARAKTERLER = [
-  { label: 'Assassian', icon: null, img: '/shard.png' },
+  { label: 'Assassian', icon: null, img: '/assassian-icon.png' },
   { label: 'Archer',    icon: null, img: '/archer-icon.png' },
-  { label: 'Priest',    icon: '✨',  img: null },
-  { label: 'Magician',  icon: '🔮',  img: null },
+  { label: 'Priest',    icon: null, img: '/dreadshield.png' },
+  { label: 'Magician',  icon: null, img: '/staffwoe.png' },
 ]
 
 export function KarakterlerDropdown() {
@@ -90,7 +90,7 @@ export function KarakterlerDropdown() {
                         width={24}
                         height={24}
                         className="object-contain"
-                        style={{ filter: 'brightness(1.15) contrast(1.1) drop-shadow(0 0 4px rgba(139,92,246,0.3))' }}
+                        style={{ mixBlendMode: 'screen', filter: 'brightness(1.3) contrast(1.1) drop-shadow(0 0 6px rgba(139,92,246,0.4))' }}
                       />
                     ) : (
                       <span className="text-xs">{k.icon}</span>

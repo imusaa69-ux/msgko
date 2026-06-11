@@ -10,11 +10,14 @@ import { useScrollDetect } from '@/hooks/useScrollDetect'
 import { useMobileMenu } from '@/hooks/useMobileMenu'
 import { MobileMenu } from './MobileMenu'
 import { IletisimModal } from '@/components/ui/IletisimModal'
+import { AsasModal } from '@/components/ui/AsasModal'
 import { KarakterlerDropdown } from '@/components/ui/KarakterlerDropdown'
 import { SearchBar } from '@/components/ui/SearchBar'
 import { SidePanel } from '@/components/ui/SidePanel'
 import { YoutubePanel } from '@/components/ui/YoutubePanel'
 import { InstagramPanel } from '@/components/ui/InstagramPanel'
+import { DuyurularModal } from '@/components/ui/DuyurularModal'
+import { WallpaperModal } from '@/components/ui/WallpaperModal'
 import { NAV_ITEMS } from '@/lib/data'
 
 const NAV_BUTTON_CLASS =
@@ -27,6 +30,9 @@ export function Navbar() {
   const [wsMovieOpen, setWsMovieOpen] = useState(false)
   const [iletisimOpen, setIletisimOpen] = useState(false)
   const [youtubeOpen, setYoutubeOpen] = useState(false)
+  const [asasModalOpen, setAsasModalOpen] = useState(false)
+  const [wallpaperOpen, setWallpaperOpen] = useState(false)
+  const [duyurularOpen, setDuyurularOpen] = useState(false)
 
   return (
     <>
@@ -54,9 +60,8 @@ export function Navbar() {
           }}
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group" aria-label="Ana Sayfa">
+          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group" aria-label="Ana Sayfa">
             <div className="relative">
-              {/* Hover glow behind logo */}
               <div
                 className="absolute inset-0 blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none scale-150"
                 style={{ background: 'rgba(139,92,246,0.45)' }}
@@ -66,14 +71,20 @@ export function Navbar() {
                 alt="MSG Knight Online"
                 width={64}
                 height={64}
-                className="relative w-14 h-14 md:w-16 md:h-16 object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-125"
+                className="relative w-12 h-12 md:w-14 md:h-14 object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-125"
                 style={{ mixBlendMode: 'screen', filter: 'brightness(1.5) contrast(1.1)' }}
                 priority
               />
             </div>
-            <div className="hidden lg:flex flex-col">
-              <span className="text-[0.78rem] font-bold tracking-[0.18em] uppercase leading-none text-white/95">MSG</span>
-              <span className="text-[0.54rem] tracking-[0.22em] uppercase leading-none mt-0.5 text-purple-400/75">Knight Online</span>
+            {/* Yazı — hem mobil hem masaüstü */}
+            <div className="flex flex-col">
+              <span className="text-[0.82rem] font-black tracking-[0.14em] uppercase leading-none text-white/95 group-hover:text-white transition-colors duration-200">
+                MSGKO
+                <span className="text-purple-400/80">.NET</span>
+              </span>
+              <span className="text-[0.5rem] tracking-[0.2em] uppercase leading-none mt-0.5 text-white/30">
+                Knight Online
+              </span>
             </div>
           </Link>
 
@@ -112,12 +123,10 @@ export function Navbar() {
             <button type="button" onClick={() => setYoutubeOpen(true)} className={NAV_BUTTON_CLASS}>
               <span className="absolute inset-x-1 inset-y-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-sm bg-red-500/[0.06]" />
               <span className="relative z-10 flex items-center gap-2">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full transition-all duration-300 group-hover:scale-110"
-                  style={{ background: 'rgba(255,68,68,0.15)', border: '1px solid rgba(255,68,68,0.25)' }}>
-                  <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="text-red-400 transition-colors duration-200 translate-x-px">
-                    <path d="M8 5v14l11-7z"/>
-                  </svg>
-                </span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
+                  className="text-red-500/60 group-hover:text-red-400 transition-colors duration-200 flex-shrink-0">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
                 <span className="text-[#C8C8D8]/50 group-hover:text-red-300 transition-colors duration-200">Youtube</span>
               </span>
             </button>
@@ -137,6 +146,33 @@ export function Navbar() {
                 </span>
                 <span className="text-[#C8C8D8]/50 group-hover:text-pink-300 transition-colors duration-200">Instagram</span>
               </span>
+            </button>
+
+            {/* Duyurular nav button */}
+            <button type="button" onClick={() => setDuyurularOpen(true)} className={NAV_BUTTON_CLASS}>
+              <span className="absolute inset-x-1 inset-y-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-sm bg-amber-500/[0.06]" />
+              <span className="relative z-10 flex items-center gap-2">
+                <span className="flex items-center justify-center w-5 h-5 rounded-full transition-all duration-300 group-hover:scale-110"
+                  style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.25)' }}>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                    className="text-amber-400 transition-colors duration-200">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+                </span>
+                <span className="text-[#C8C8D8]/50 group-hover:text-amber-300 transition-colors duration-200">Duyurular</span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setWallpaperOpen(true)}
+              className="relative flex items-center h-9 px-5 ml-1 text-[0.78rem] font-semibold tracking-[0.08em] uppercase transition-all duration-300 border text-purple-300/70 border-purple-500/20 bg-purple-500/[0.04] hover:border-purple-500/50 hover:bg-purple-500/[0.12] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 opacity-70" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              Wallpaper
             </button>
 
             <button
@@ -178,8 +214,14 @@ export function Navbar() {
         onYoutubeOpen={() => setYoutubeOpen(true)}
         onInstagramOpen={() => setWsMovieOpen(true)}
         onIletisimOpen={() => setIletisimOpen(true)}
+        onAsasOpen={() => setAsasModalOpen(true)}
+        onDuyurularOpen={() => setDuyurularOpen(true)}
       />
       <IletisimModal isOpen={iletisimOpen} onClose={() => setIletisimOpen(false)} />
+      <AsasModal isOpen={asasModalOpen} onClose={() => setAsasModalOpen(false)} />
+
+      {/* Wallpaper Modal */}
+      <WallpaperModal isOpen={wallpaperOpen} onClose={() => setWallpaperOpen(false)} />
 
       {/* YouTube Side Panel */}
       <SidePanel
@@ -218,6 +260,10 @@ export function Navbar() {
       >
         <InstagramPanel />
       </SidePanel>
+
+      {/* Duyurular Modal (tam ekran, WallpaperModal gibi) */}
+      <DuyurularModal isOpen={duyurularOpen} onClose={() => setDuyurularOpen(false)} />
+
     </>
   )
 }
